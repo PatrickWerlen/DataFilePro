@@ -52,11 +52,15 @@ public class View extends Stage {
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-
-                nameV.setText(model.getCountryList().get(Integer.parseInt(newValue)).getName());
-                populationV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getPopulation()));
-                areaV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getArea()));
-                densityV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getDensity()));
+                try {
+                    nameV.setText(model.getCountryList().get(Integer.parseInt(newValue)).getName());
+                    populationV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getPopulation()));
+                    areaV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getArea()));
+                    densityV.setText(String.valueOf(model.getCountryList().get(Integer.parseInt(newValue)).getDensity()));
+                } catch (IndexOutOfBoundsException IOOB){
+                    //Can be ignored since if the user enters a index that does not exist the view wont change and previous
+                    //country will be shown
+                }
             }
         });
 

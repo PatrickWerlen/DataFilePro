@@ -14,6 +14,7 @@ public class Model {
     public Model(){
         this.popDat = manageFiles("worldpopulation");
         this.areaDat = manageFiles("worldarea");
+
         fillCountryList();
     }
 
@@ -68,10 +69,18 @@ public class Model {
 
                 String partsPop[] = popInput.split("\t");
                 name = partsPop[0];
-                population = Long.parseLong(partsPop[1]);
+                try {
+                    population = Long.parseLong(partsPop[1]);
+                }catch (ArrayIndexOutOfBoundsException arrayexception){
+                    continue;
+                }
 
                 String partsArea[] = areaInput.split("\t");
-                area = Integer.parseInt(partsArea[1]);
+                try {
+                    area = Integer.parseInt(partsArea[1]);
+                } catch (ArrayIndexOutOfBoundsException arrayexception){
+                    continue;
+                }
 
                 countryList.add(new Country(index++, name, population, area));
             }
