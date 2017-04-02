@@ -15,6 +15,4 @@ public class DataManagerMain extends Application{
         View view = new View(model);
     }
 
-
-
 }

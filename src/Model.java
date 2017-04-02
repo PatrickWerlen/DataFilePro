@@ -12,6 +12,7 @@ public class Model {
     private List<Country> countryList = new ArrayList<Country>();
 
     public Model(){
+        //give each file his .txt file
         this.popDat = manageFiles("worldpopulation");
         this.areaDat = manageFiles("worldarea");
 
@@ -22,7 +23,7 @@ public class Model {
         return countryList;
     }
 
-    //give user a filechooser
+    //give user a filechooser and give the .dat files to convertFile()
     private final File manageFiles(String fileName){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Please choose the " + fileName +" file");
@@ -52,23 +53,29 @@ public class Model {
 
     //reads .txt Files and creates object Country and adds them to the countryList
     private void fillCountryList(){
+        //creat tmp string to then give them to the Country constructor
         String popInput, areaInput, name;
         int area;
         int index = 1;
         long population;
 
-        try (
+        try (//create a scanner for each file
             Scanner popScan = new Scanner(popDat);
             Scanner areaScan = new Scanner(areaDat);
         ){
             popScan.useDelimiter(" ");
             areaScan.useDelimiter(" ");
             while(popScan.hasNext()){
+
+                //read per line
                 popInput = popScan.nextLine();
                 areaInput = areaScan.nextLine();
 
+                //split the sting made from the line in 2 strings ([0] = name / [1] = number)
                 String partsPop[] = popInput.split("\t");
                 name = partsPop[0];
+
+                //try to parse the numbers if number is missing for a country --> ignore and continue
                 try {
                     population = Long.parseLong(partsPop[1]);
                 }catch (ArrayIndexOutOfBoundsException arrayexception){
@@ -82,8 +89,11 @@ public class Model {
                     continue;
                 }
 
+                //add new countries to the list
                 countryList.add(new Country(index++, name, population, area));
             }
+
+            //add the total (index 0) country
             addTotalCountry();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

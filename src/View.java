@@ -38,6 +38,8 @@ public class View extends Stage {
 
     private TextArea createTextArea(){
         TextArea textArea = new TextArea();
+
+        //print the index and name of every country from the list
         for(Country country : model.getCountryList()){
             textArea.appendText(country.getIndex() + ": " + country.getName()+"\n");
         }
@@ -45,10 +47,11 @@ public class View extends Stage {
         return textArea;
     }
 
-
     private TextField createTextField(){
         TextField textField = new TextField();
         textField.setPromptText("Enter #number");
+
+        //Changes the text (Valuelabels) when the user enters a new index
         textField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -67,7 +70,6 @@ public class View extends Stage {
         //create TextFormatter to only let numbers be entered in the textfield
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String text = change.getText();
-
             if (text.matches("[0-9]*")) {
                 return change;
             }
@@ -87,7 +89,6 @@ public class View extends Stage {
         Label populationT = new Label("Population:\t");
         Label areaT = new Label("Area:\t");
         Label densityT = new Label("Population Density:\t");
-
 
         gridPane.addRow(0, nameT,nameV);
         gridPane.addRow(1, populationT,populationV);
